@@ -1,20 +1,51 @@
 server {
-	listen   443; ## listen for ipv4; this line is default and implied
-	listen   [::]:443 default ipv6only=on; ## listen for ipv6
+  listen   443; ## listen for ipv4; this line is default and implied
+  listen   [::]:443 default ipv6only=on; ## listen for ipv6
 
-	root /opt/kibana-3.0.1;
-	index index.php index.html index.htm;
+  # Make site accessible from http://localhost/
+  server_name localhost;
 
-	# Make site accessible from http://localhost/
-	server_name localhost;
+  location = /health {
+    return 200;
+    access_log off;
+  }
 
-	location = /health {
-		return 200;
-		access_log off;
-	}
+  location / {
+    root /opt/kibana-3.0.1;
+    index index.html index.htm;
 
-	location / {
-		auth_basic "Restricted";
-		auth_basic_user_file /etc/kibana/htpasswd;
-	}
+    auth_basic "Restricted";
+    auth_basic_user_file /etc/kibana/htpasswd;
+  }
+
+  # Reverse proxy elasticsearch ajax calls
+  location ~ ^/_aliases$ {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_aliases$ {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/_nodes$ {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_search$ {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_mapping {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
+
+  location ~ ^/kibana-int/dashboard/.*$ {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/kibana-int/temp.*$ {
+    proxy_pass http://@ES_HOST@:@ES_PORT@;
+    proxy_read_timeout 90;
+  }
 }

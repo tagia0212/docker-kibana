@@ -1,3 +1,5 @@
 #!/bin/bash
 htpasswd -bc /etc/kibana/htpasswd ${KIBANA_USER} ${KIBANA_PASSWORD}
+sed -i "s/@ES_PORT_9200_TCP_ADDR@/$ES_HOST/g" /etc/nginx/sites-available/kibana
+sed -i "s/@ES_PORT_9200_TCP_PORT@/$ES_PORT/g" /etc/nginx/sites-available/kibana
 nginx -c /etc/nginx/nginx.conf
