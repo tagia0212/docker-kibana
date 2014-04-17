@@ -1,0 +1,3 @@
+#!/bin/bash
+htpasswd -bc /etc/kibana/htpasswd ${KIBANA_USER} ${KIBANA_PASSWORD}
+nginx -c /etc/nginx/nginx.conf
