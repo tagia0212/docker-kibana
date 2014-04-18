@@ -2,7 +2,7 @@ docker-kibana
 =============
 
 Kibana webapp.  This container is designed to run behind an elb with SSL offloading.  Port 80 redirects urls
-to https.  Port 443 actually does not use SSL but is expecting the elb to forward https traffic to port 443 using http.  This setup will change so that the container only uses port 80 since it should be using the X-Forwarded-Proto header to decide whether to redirect to https or not.
+to https if the X-Forwarded-Proto header is "https".
 
 The following environment variables can be used to configure the container:
 
@@ -17,4 +17,4 @@ This container can be built using:
 
 For an elasticsearch container named "elasticsearch", this container can be run using:
 
-      docker run -p 80:80 -p 443:443 -link elasticsearch:es balsamiq/docker-logstash-ec2
+      docker run --link elasticsearch:es balsamiq/docker-kibana
