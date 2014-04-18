@@ -17,4 +17,4 @@ This container can be built using:
 
 For an elasticsearch container named "elasticsearch", this container can be run using:
 
-      docker run --link elasticsearch:es balsamiq/docker-kibana
+      docker run -p 80:80 --link elasticsearch:es balsamiq/docker-kibana
