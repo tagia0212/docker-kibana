@@ -14,8 +14,8 @@ server {
     root /opt/kibana-3.0.1;
     index index.html index.htm;
 
-    if ($http_x_forwarded_proto = "https") {
-      rewrite ^ https://$host$uri break;
+    if ($http_x_forwarded_proto != "https") {
+      rewrite ^ https://$host$uri permanent;
     }
 
     auth_basic "Restricted";
