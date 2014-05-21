@@ -11,7 +11,7 @@ server {
   }
 
   location / {
-    root /opt/kibana-3.0.1;
+    root /opt/kibana-3.1.0;
     index index.html index.htm;
   }
 
