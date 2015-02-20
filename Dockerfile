@@ -5,14 +5,11 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install wget nginx-full apache2-utils supervisor
 
 WORKDIR /opt
-RUN wget --no-check-certificate -O- https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.tar.gz | tar xvfz -
-ADD config/config.js /opt/kibana-3.1.2/config.js
+RUN wget --no-check-certificate -O- https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-linux-x64.tar.gz | tar xvfz -
 RUN mkdir /etc/kibana # This is where the htpasswd file is placed by the run script
 
-ADD nginx_config /opt/nginx_config
-RUN chmod +x /opt/nginx_config
-
-ADD config/etc /etc
+ADD kibana /etc/nginx/sites-available/kibana
+ADD kibana-secure /etc/nginx/sites-available/kibana-secure
 RUN rm /etc/nginx/sites-enabled/*
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
@@ -23,4 +20,7 @@ ENV KIBANA_PASSWORD kibana
 EXPOSE 80
 
 ADD supervisord.conf /etc/supervisor/supervisord.conf
-CMD ["/usr/bin/supervisord"]
+
+ADD run ./run
+RUN chmod +x ./run
+CMD ./run
