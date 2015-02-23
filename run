@@ -7,4 +7,4 @@ else
 	ln -s /etc/nginx/sites-available/kibana /etc/nginx/sites-enabled/kibana
 fi
 sed -i "s/kibana:5601/$HOSTNAME:5601/g" /etc/nginx/sites-enabled/kibana
-/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
