@@ -11,7 +11,7 @@ server {
   }
 
   location / {
-    proxy_pass http://localhost:5601;
+    proxy_pass http://kibana:5601;
     proxy_read_timeout 90;
 
     if ($http_x_forwarded_proto != "https") {
