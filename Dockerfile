@@ -19,7 +19,7 @@ ENV KIBANA_PASSWORD kibana
 
 EXPOSE 80
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD supervisord.conf /etc/supervisor/conf.d/kibana.conf
 
 ADD run ./run
 RUN chmod +x ./run
