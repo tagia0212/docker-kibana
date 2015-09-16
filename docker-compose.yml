@@ -4,5 +4,5 @@ kibana:
         - KIBANA_SECURE=false
         - KIBANA_USER=kamasu
         - KIBANA_PASSWORD=kamasu1235789
-    prots:
+    ports:
         - 5601:5601
